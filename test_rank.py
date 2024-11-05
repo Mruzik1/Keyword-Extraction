@@ -12,6 +12,8 @@ import networkx as nx
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
 
 # download nltk dependencies
 nltk.download('punkt')
@@ -142,6 +144,22 @@ if __name__ == "__main__":
     with open("result.json", "w") as f:
         json.dump(keywords_clean, f)
 
+    # visualization with wordcloud
+    figures = []
+
+    for category, word_scores in keywords_clean.items():
+        frequencies = {word: score for word, score in word_scores}
+        wordcloud = WordCloud(width=800, height=400, background_color='white')
+        wordcloud.generate_from_frequencies(frequencies)
+        fig = plt.figure(figsize=(15, 7.5))
+        plt.imshow(wordcloud, interpolation='bilinear')
+        plt.axis('off')
+        plt.title(category, fontsize=24)
+        figures.append(fig)
+
+    plt.show()
+
     end_time = time.time()
     execution_time_minutes = (end_time - start_time) / 60
     print(f"Execution Time: {execution_time_minutes}m")
+
