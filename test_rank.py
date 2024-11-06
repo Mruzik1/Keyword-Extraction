@@ -120,7 +120,7 @@ def extract_keywords(text_dict, top_n=10):
     return top_keywords
 
 
-def clean_keywords(keywords):
+def clear_keywords(keywords):
     """ Remove common keywords for each category """
     keywords_sets = [{i[0] for i in keywords[k]} for k in keywords]
     common_keywords = list(set.intersection(*keywords_sets))
@@ -139,7 +139,7 @@ if __name__ == "__main__":
 
     texts = get_text_csv(f"{data_directory}/Resume/Resume.csv")
     keywords = extract_keywords(texts, top_n=15)
-    keywords_clean = clean_keywords(keywords)
+    keywords_clean = clear_keywords(keywords)
 
     with open("result.json", "w") as f:
         json.dump(keywords_clean, f)
